@@ -1,3 +1,4 @@
+using Delta;
 using template_demo.Api.IoC;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -12,6 +13,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.Setup(builder.Configuration);
 var app = builder.Build();
 
+ 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {

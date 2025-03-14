@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using template_demo.Persistence.Context;
 
@@ -11,9 +12,11 @@ using template_demo.Persistence.Context;
 namespace template_demo.Persistence.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250201211608_Add-row-versioning-to-tables")]
+    partial class Addrowversioningtotables
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -48,6 +51,9 @@ namespace template_demo.Persistence.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<decimal>("RowVersion")
+                        .HasColumnType("decimal(20,0)");
+
                     b.Property<int>("StatusId")
                         .HasColumnType("int");
 
@@ -81,6 +87,9 @@ namespace template_demo.Persistence.Migrations
 
                     b.Property<string>("Password")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal>("RowVersion")
+                        .HasColumnType("decimal(20,0)");
 
                     b.Property<string>("StaffNumber")
                         .HasColumnType("nvarchar(max)");

@@ -9,7 +9,7 @@ namespace template_demo.Application.Repositories
 {
     public interface IGenericRepository<T> where T : class
     {
-        Task<IEnumerable<T>> GetAllAsync();
+        Task<IEnumerable<T>> GetAllAsync(int pageNumber = 1, int pageSize = 10000);
         Task<T> GetByIdAsync(Guid id);
         Task AddAsync(T entity);
         Task UpdateAsync(T entity);
@@ -17,12 +17,10 @@ namespace template_demo.Application.Repositories
     }
     public class GenericRepository<T> : IGenericRepository<T> where T : class
     {
-        private readonly IApplicationDbContext _context;
         private readonly DbSet<T> _dbSet;
 
         public GenericRepository(IApplicationDbContext context)
         {
-            _context = context;
             _dbSet = context.Set<T>();
         }
 
@@ -36,9 +34,9 @@ namespace template_demo.Application.Repositories
             _dbSet.Remove(entity);
         }
 
-        public async Task<IEnumerable<T>> GetAllAsync()
+        public async Task<IEnumerable<T>> GetAllAsync(int pageNumber = 1, int pageSize = 10000)
         {
-            return await _dbSet.ToListAsync();
+            return await _dbSet.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToListAsync();
         }
 
         public async Task<T> GetByIdAsync(Guid id)

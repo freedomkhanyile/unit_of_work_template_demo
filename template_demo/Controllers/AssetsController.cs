@@ -19,11 +19,11 @@ namespace template_demo.Api.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<AssetDto>>> GetAssetsAsync()
+        public async Task<ActionResult<List<AssetDto>>> GetAssetsAsync(int pageNumber = 1, int pageSize = 10000)
         {
             try
             {
-                var assets = await _unitOfWork.Assets.GetAllAsync();
+                var assets = await _unitOfWork.Assets.GetAllAsync(pageNumber, pageSize);
                 var model = assets.Select(x => x.ToModel()).ToList();
                 return Ok(model);
             }
